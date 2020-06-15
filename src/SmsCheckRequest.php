@@ -4,6 +4,7 @@ namespace Yjtec\LaravelSms;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Yjtec\LaravelSms\SmsRule;
 
 /**
  * @OA\RequestBody(
@@ -61,7 +62,7 @@ class SmsCheckRequest extends FormRequest
      */
     public function rules()
     {
-        $defaultRule = ['required', 'regex:/^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0-3,5-8])|(18[0-9])|166|165|198|199|(147))\d{8}$/'];
+        $defaultRule = ['required', 'regex:' . SmsRule::getPhonePregMatchRule()];
         if ($rules = config('sms.rules.' . $this->type)) {
             $phoneRules = array_merge($defaultRule, $rules);
         } else {
